@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliomedia - Sistema de Gestión de Préstamos</title>
+
+    <!-- Fuentes e Iconos vía CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Hoja de estilos externa -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- BARRA LATERAL (SIDEBAR) -->
+<aside>
+    <div>
+        <div class="logo-box">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <h2>BIBLIOMEDIA</h2>
+        </div>
+        <nav>
+            <button class="active" onclick="switchNav('dashboard', this)">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </button>
+            <button onclick="switchNav('usuarios', this)">
+                <i class="fa-solid fa-user-group"></i> Gestión de Usuarios
+            </button>
+            <button onclick="switchNav('articulos', this)">
+                <i class="fa-solid fa-book-bookmark"></i> Catálogo de Artículos
+            </button>
+            <button onclick="switchNav('prestamos', this)">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i> Control de Préstamos
+            </button>
+        </nav>
+    </div>
+    <div>
+        <button class="btn-logout" onclick="cerrarSesion()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión
+        </button>
+    </div>
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main>
+    <!-- HEADER -->
+    <header>
+        <div class="header-title">
+            <h1>Panel de Control</h1>
+            <p>Sistema de Gestión de Préstamos</p>
+        </div>
+        <div class="header-actions">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Búsqueda...">
+            </div>
+            <button class="btn-header-primary" onclick="openModal('modal-prestamo')">Nuevo Préstamo</button>
+            <button class="btn-header-secondary" onclick="openModal('modal-usuario')">Registrar Usuario</button>
+            <div class="user-profile">
+                <div class="avatar">SA</div>
+                <span class="user-profile-name">Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECCIÓN: DASHBOARD -->
+    <section id="tab-dashboard" class="tab-content active">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-info">
+                    <span>Artículos Prestados</span>
+                    <h3>342</h3>
+                    <p class="metric-sub text-green"><i class="fa-solid fa-arrow-up"></i> +8% este mes</p>
+                </div>
+                <div class="metric-icon icon-blue">
+                    <i class="fa-solid fa-video"></i>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-info">
+                    <span>Préstamos Vencidos</span>
+                    <h3>18</h3>
+                    <p class="metric-sub text-red"><i class="fa-solid fa-triangle-exclamation"></i> Requiere atención</p>
+                </div>
+                <div class="metric-icon icon-red">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-info">
+                    <span>Total Usuarios</span>
+                    <h3>856</h3>
+                    <p class="metric-sub text-muted">720 Alumnos / 136 Docentes</p>
+                </div>
+                <div class="metric-icon icon-green">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA ACTIVIDAD RECIENTE -->
+        <div class="section-card">
+            <h2>Actividad Reciente</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Artículo</th>
+                    <th>Tipo</th>
+                    <th>Fecha Préstamo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="user-col">
+                            <div class="avatar avatar-pink">AM</div>
+                            <div>
+                                <div>Anta Macio</div>
+                                <div class="user-col-sub">Alumno</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Interstellar</td>
+                    <td><span class="chip-tipo"><i class="fa-solid fa-film"></i> Película</span></td>
+                    <td>03/03/2026</td>
+                    <td><span class="badge-status status-devuelto">Devuelto</span></td>
+                    <td><button class="btn-table-devolver" disabled>Devuelto</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="user-col">
+                            <div class="avatar avatar-indigo">AB</div>
+                            <div>
+                                <div>Admin B.</div>
+                                <div class="user-col-sub">Docente</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Cyberpunk 2077</td>
+                    <td><span class="chip-tipo"><i class="fa-solid fa-gamepad"></i> Videojuego</span></td>
+                    <td>03/04/2026</td>
+                    <td><span class="badge-status status-activo">Activo</span></td>
+                    <td><button class="btn-table-devolver" onclick="devolverArticulo('Cyberpunk 2077')">Devolver</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="user-col">
+                            <div class="avatar avatar-red">SM</div>
+                            <div>
+                                <div>Saul Martinez</div>
+                                <div class="user-col-sub">Alumno (NIE: Z2131362A)</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Elden Ring</td>
+                    <td><span class="chip-tipo"><i class="fa-solid fa-gamepad"></i> Videojuego</span></td>
+                    <td>25/03/2026</td>
+                    <td><span class="badge-status status-vencido">Vencido</span></td>
+                    <td><button class="btn-table-devolver" onclick="devolverArticulo('Elden Ring')">Devolver</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: GESTIÓN DE USUARIOS -->
+    <section id="tab-usuarios" class="tab-content">
+        <div class="section-card">
+            <h2>Directorio de Usuarios</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>DNI / NIE</th>
+                    <th>Nombre Completo</th>
+                    <th>Edad</th>
+                    <th>Tipo</th>
+                    <th>Asignatura (Docente)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Z2131362A</td>
+                    <td>Saul Martinez</td>
+                    <td>28</td>
+                    <td><span class="chip-tipo">Alumno</span></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>45678912D</td>
+                    <td>Alberto Gómez</td>
+                    <td>45</td>
+                    <td><span class="chip-tipo">Docente</span></td>
+                    <td>Programación Orientada a Objetos</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CATÁLOGO DE ARTÍCULOS -->
+    <section id="tab-articulos" class="tab-content">
+        <div class="section-card">
+            <div class="section-header-inline">
+                <h2>Catálogo Multimedia</h2>
+                <button class="btn-header-primary" onclick="openModal('modal-articulo')">+ Nuevo Artículo</button>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nº Serie</th>
+                    <th>Título</th>
+                    <th>Género</th>
+                    <th>Tipo</th>
+                    <th>Plataforma</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>VJ-102</td>
+                    <td>Elden Ring</td>
+                    <td>Rol / Acción</td>
+                    <td><span class="chip-tipo"><i class="fa-solid fa-gamepad"></i> Videojuego</span></td>
+                    <td>PC</td>
+                </tr>
+                <tr>
+                    <td>PEL-001</td>
+                    <td>Interstellar</td>
+                    <td>Ciencia Ficción</td>
+                    <td><span class="chip-tipo"><i class="fa-solid fa-film"></i> Película</span></td>
+                    <td>-</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CONTROL DE PRÉSTAMOS -->
+    <section id="tab-prestamos" class="tab-content">
+        <div class="section-card">
+            <h2>Todos los Préstamos</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario (DNI/NIE)</th>
+                    <th>Nº Serie Artículo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Límite Entrega</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Z2131362A</td>
+                    <td>VJ-102</td>
+                    <td>01/04/2026</td>
+                    <td>08/04/2026</td>
+                    <td><span class="badge-status status-devuelto">Devuelto</span></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>87654321B</td>
+                    <td>PEL-001</td>
+                    <td>09/04/2026</td>
+                    <td>16/04/2026</td>
+                    <td><span class="badge-status status-activo">Activo</span></td>
+                    <td><button class="btn-table-devolver" onclick="devolverArticulo('PEL-001')">Devolver</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<!-- MODAL 1: NUEVO PRÉSTAMO -->
+<div id="modal-prestamo" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Nuevo Préstamo</h3>
+            <button class="modal-close" onclick="closeModal('modal-prestamo')">&times;</button>
+        </div>
+        <form onsubmit="cerrarModalConAlerta(event, 'modal-prestamo', 'Préstamo registrado exitosamente')">
+            <div class="form-group">
+                <label>DNI / NIE del Usuario</label>
+                <input type="text" placeholder="Ej: Z2131362A" required>
+            </div>
+            <div class="form-group">
+                <label>Número de Serie del Artículo</label>
+                <input type="text" placeholder="Ej: VJ-102" required>
+            </div>
+            <div class="form-group">
+                <label>Días de Préstamo</label>
+                <input type="number" min="1" value="7" required>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-header-secondary" onclick="closeModal('modal-prestamo')">Cancelar</button>
+                <button type="submit" class="btn-header-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL 2: REGISTRAR USUARIO -->
+<div id="modal-usuario" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Registrar Usuario</h3>
+            <button class="modal-close" onclick="closeModal('modal-usuario')">&times;</button>
+        </div>
+        <form onsubmit="cerrarModalConAlerta(event, 'modal-usuario', 'Usuario guardado exitosamente')">
+            <div class="form-group">
+                <label>Tipo de Usuario</label>
+                <select id="user-type" onchange="toggleAsignatura(this.value)">
+                    <option value="ALUMNO">Alumno</option>
+                    <option value="DOCENTE">Docente</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>DNI / NIE</label>
+                <input type="text" placeholder="Ej: 12345678A o Z2131362A" required>
+            </div>
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" placeholder="Ej: Saul Martinez" required>
+            </div>
+            <div class="form-group">
+                <label>Edad</label>
+                <input type="number" min="1" max="120" value="20" required>
+            </div>
+            <div class="form-group" id="grupo-asig" style="display:none;">
+                <label>Asignatura (Solo Docente)</label>
+                <input type="text" placeholder="Ej: Programación">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-header-secondary" onclick="closeModal('modal-usuario')">Cancelar</button>
+                <button type="submit" class="btn-header-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL 3: REGISTRAR ARTÍCULO -->
+<div id="modal-articulo" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Nuevo Artículo</h3>
+            <button class="modal-close" onclick="closeModal('modal-articulo')">&times;</button>
+        </div>
+        <form onsubmit="cerrarModalConAlerta(event, 'modal-articulo', 'Artículo registrado exitosamente')">
+            <div class="form-group">
+                <label>Tipo de Artículo</label>
+                <select id="art-type" onchange="togglePlataforma(this.value)">
+                    <option value="PELICULA">Película</option>
+                    <option value="VIDEOJUEGO">Videojuego</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Número de Serie</label>
+                <input type="text" placeholder="Ej: PEL-005 o VJ-105" required>
+            </div>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" placeholder="Ej: Cyberpunk 2077" required>
+            </div>
+            <div class="form-group">
+                <label>Género</label>
+                <input type="text" placeholder="Ej: Rol / Aventura" required>
+            </div>
+            <div class="form-group" id="grupo-plat" style="display:none;">
+                <label>Plataforma (Solo Videojuegos)</label>
+                <input type="text" placeholder="Ej: PC, PS5, Switch">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-header-secondary" onclick="closeModal('modal-articulo')">Cancelar</button>
+                <button type="submit" class="btn-header-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Archivo JS externo -->
+<script src="js/app.js"></script>
+</body>
+</html>
