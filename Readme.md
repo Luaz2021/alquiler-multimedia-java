@@ -18,32 +18,33 @@ Permite registrar personas, consultar articulos multimedia y controlar las fecha
 
 ## Estructura del Proyecto
 
+```text
 src/
 |-- main/
 |   |-- java/
-|   |   `-- org/example/
-|   |       |-- database/          # Conexion a la base de datos (ConexionDB)
-|   |       |-- model/             # Clases del dominio y herencia
-|   |       |   |-- AbstractArticulo
-|   |       |   |-- AbstractUsuario
-|   |       |   |-- Alumno
-|   |       |   |-- Docente
-|   |       |   |-- Pelicula
-|   |       |   |-- VideoJuego
-|   |       |   `-- Prestamo
-|   |       |-- repository/        # Capa DAO (consultas SQL a la base de datos)
-|   |       |   |-- ArticuloDao
-|   |       |   |-- UsuarioDao
-|   |       |   |-- PrestamoDao
-|   |       |   `-- Query
-|   |       |-- service/           # Logica del programa y servidores
-|   |       |   |-- GestionAlquiler
-|   |       |   |-- MenuConsola
-|   |       |   `-- ServidorWeb
-|   |       |-- utils/             # Validacion de datos (ValidacionesUtil)
-|   |       `-- Main.java          # Archivo principal de ejecucion
-|   |-- resources/                 # Scripts SQL (schema.sql, data.sql)
-|   `-- webapp/                    # Archivos de la interfaz web (HTML, CSS, JS)
+|       |-- org/example/
+|           |-- database/         # Conexion a la base de datos (ConexionDB)
+|           |-- model/            # Clases del dominio y herencia
+|               |-- AbstractArticulo
+|               |-- AbstractUsuario
+|               |-- Alumno
+|               |-- Docente
+|               |-- Pelicula
+|               |-- VideoJuego
+|               |-- Prestamo
+|           |-- repository/       # Capa DAO (consultas SQL a la base de datos)
+|               |-- ArticuloDao
+|               |-- UsuarioDao
+|               |-- PrestamoDao
+|               |-- Query
+|           |-- service/          # Logica del programa y servidores
+|               |-- GestionAlquiler
+|               |-- MenuConsola
+|               |-- ServidorWeb
+|           |-- utils/            # Validacion de datos (ValidacionesUtil)
+|           |-- Main.java         # Archivo principal de ejecucion
+|-- resources/                    # Scripts SQL (schema.sql, data.sql)
+|-- webapp/                       # Archivos de la interfaz web (HTML, CSS, JS)
 
 ---
 
